@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General Service Map</title>
+  </head>
+  <body
+    class="bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 py-12"
+  >
+    <h1 class="text-4xl font-bold text-center">General Service Map</h1>
+
+    <div class="mt-8 mx-auto w-full max-w-4xl grid gap-5">
+      <p>
+        Create a map of your A.A. General Service area that you can embed on
+        your website. The more areas that participate, the more complete the map
+        will become.
+      </p>
+
+      <p>
+        To add the map to your website, add the following code to your HTML
+        file:
+      </p>
+
+      <!-- prettier ignore -->
+      <pre class="bg-black p-5 font-mono rounded text-sm">
+&lt;script src="https://general-service-map.netlify.app/app.js" type="module" async&gt;&lt;/script&gt;
+&lt;div id="map" data-area="3"&gt;&lt;/div&gt;</pre
+      >
+
+      <div id="map" class="h-[600px] max-h-screen rounded"></div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
