@@ -1,31 +1,23 @@
-import "./style.css";
-
 import { Loader } from "@googlemaps/js-api-loader";
 
 import { initClick } from "./helpers/init-click";
-import { initControls } from "./helpers/init-controls";
+import { initSearch } from "./helpers/init-search";
 import { initDistricts } from "./helpers/init-districts";
 import { selectMap } from "./helpers/select-map";
+import { initFullscreenControl } from "./helpers/init-fullscreen-control";
+import { initZoomControl } from "./helpers/init-zoom-control";
 
-function main() {
+(() => {
   const loader = new Loader({
     apiKey: import.meta.env.VITE_GOOGLE,
-    version: "weekly",
+    libraries: ["geometry"],
   });
 
-  loader.load().then(async () => {
-    const { Map } = (await google.maps.importLibrary(
-      "maps"
-    )) as google.maps.MapsLibrary;
-
-    await google.maps.importLibrary("geometry");
-
+  loader.importLibrary("maps").then(async ({ Map }) => {
     const map = new Map(document.getElementById("map") as HTMLElement, {
       center: { lat: 45, lng: -100 },
+      disableDefaultUI: true,
       zoom: 4,
-      mapTypeControl: false,
-      streetViewControl: false,
-      mapId: "d4e3a17e37ca67aa", //import.meta.env.VITE_MAP_ID,
     });
 
     const mapData = await fetch(
@@ -38,12 +30,15 @@ function main() {
     });
 
     const districts = initDistricts(map, areas);
+
     initClick(map, districts);
 
     selectMap(map, districts);
 
-    initControls(map, areas, districts, marker);
-  });
-}
+    initSearch(map, areas, districts, marker);
 
-main();
+    initFullscreenControl(map);
+
+    initZoomControl(map);
+  });
+})();

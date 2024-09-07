@@ -1,14 +1,26 @@
 import { selectMap } from "./select-map.ts";
 import { initUserDistrict } from "./init-user-district.ts";
 
-import { Area, District } from "./types";
+import { Area, District } from "./types.ts";
+import { controlsStyle, searchStyle } from "./styles.ts";
 
-export function initControls(
+export function initSearch(
   map: google.maps.Map,
   areas: Area[],
   districts: District[],
   marker: google.maps.Marker
 ) {
+  const controls = document.createElement("form");
+  Object.assign(controls.style, controlsStyle);
+  controls.id = "controls";
+
+  const input = document.createElement("input");
+  input.type = "search";
+  input.placeholder = "Area, District, or Address";
+  Object.assign(input.style, searchStyle);
+  controls.appendChild(input);
+
+  /*
   // create select
   const select = document.createElement("select");
   select.id = "menu";
@@ -100,6 +112,7 @@ export function initControls(
   controls.id = "controls";
   controls.appendChild(topRow);
   controls.appendChild(form);
+  */
 
   // add select to map
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(controls);

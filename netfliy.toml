@@ -1,4 +1,7 @@
 [[headers]]
-  for = "/*"
+  for = "/app.js"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+  for = "/dist/app.js"
   [headers.values]
     Access-Control-Allow-Origin = "*"
