@@ -9,27 +9,52 @@
   <body
     class="bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 py-12"
   >
-    <h1 class="text-4xl font-bold text-center">General Service Map</h1>
+    <h1 class="text-4xl font-bold text-center">Area Map</h1>
 
     <div class="mt-8 mx-auto w-full max-w-4xl grid gap-5">
       <p>
         Create a map of your A.A. General Service area that you can embed on
         your website. The more areas that participate, the more complete the map
-        will become.
+        becomes.
+      </p>
+
+      <div id="map" class="h-[600px] max-h-screen rounded"></div>
+
+      <h2 class="font-bold text-xl mt-5">Add your district boundaries</h2>
+      <p>
+        The map gets its data from a crowdsourced list of Google My Maps links
+        on the
+        <a
+          class="text-blue-600 dark:text-blue-400 underline"
+          href="https://docs.google.com/spreadsheets/d/1nr0ebftSgTADpGcNQCf95shiEtKuE4l-Td-BAIHzSyM/edit?gid=0#gid=0"
+          >Area Maps Google Sheet</a
+        >. Check that sheet, someone might have started your area already. If
+        you'd like to make edits, or if you would like to be listed as the
+        contact because you already own the sheet, just leave a comment on the
+        sheet.
       </p>
 
       <p>
-        To add the map to your website, add the following code to your HTML
-        file:
+        To create a fresh map please
+        <a
+          class="text-blue-600 dark:text-blue-400 underline"
+          href="https://docs.google.com/document/d/1nImP4ksUdR68UpV0W0pcaAuKRVl_OlILLvsMxYkUik8/edit"
+          >follow these instructions</a
+        >.
+      </p>
+
+      <h2 class="font-bold text-xl mt-5">Embed the map on your site</h2>
+      <p>
+        Once your area is added, you can embed the map on your website by adding
+        the following code to your HTML. Replace the
+        <code>data-area</code> attribute with the number of your area.
       </p>
 
       <!-- prettier ignore -->
-      <pre class="bg-black p-5 font-mono rounded text-sm">
-&lt;script src="https://general-service-map.netlify.app/app.js" type="module" async&gt;&lt;/script&gt;
+      <pre class="bg-neutral-200 dark:bg-black p-5 font-mono rounded text-sm">
+&lt;script src="https://area-map.netlify.app/app.js" type="module" async&gt;&lt;/script&gt;
 &lt;div id="map" data-area="3"&gt;&lt;/div&gt;</pre
       >
-
-      <div id="map" class="h-[600px] max-h-screen rounded"></div>
     </div>
 
     <script type="module" src="/src/main.ts"></script>

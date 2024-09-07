@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/app.js"
+  [headers.values]
+    access-control-allow-origin = "*"
