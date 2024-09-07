@@ -10,15 +10,34 @@ export function initSearch(
   districts: District[],
   marker: google.maps.Marker
 ) {
-  const controls = document.createElement("form");
-  Object.assign(controls.style, controlsStyle);
-  controls.id = "controls";
+  const form = document.createElement("form");
+  Object.assign(form.style, controlsStyle);
+  form.id = "controls";
+
+  console.log(areas.length);
 
   const input = document.createElement("input");
   input.type = "search";
   input.placeholder = "Area, District, or Address";
   Object.assign(input.style, searchStyle);
-  controls.appendChild(input);
+  form.appendChild(input);
+
+  form.onsubmit = (event) => {
+    event.preventDefault();
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: input.value }, (results, status) => {
+      if (status !== "OK" || !results) {
+        alert("Address not found");
+        return;
+      }
+      const result = results[0];
+      input.value = result.formatted_address;
+      map.setCenter(result.geometry.location);
+      marker.setPosition(result.geometry.location);
+      const myDistrict = initUserDistrict(districts, result.geometry.location);
+      selectMap(map, districts, myDistrict);
+    });
+  };
 
   /*
   // create select
@@ -86,22 +105,6 @@ export function initSearch(
 
   const form = document.createElement("form");
   form.appendChild(input);
-  form.onsubmit = (event) => {
-    event.preventDefault();
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: input.value }, (results, status) => {
-      if (status !== "OK" || !results) {
-        alert("Address not found");
-        return;
-      }
-      const result = results[0];
-      input.value = result.formatted_address;
-      map.setCenter(result.geometry.location);
-      marker.setPosition(result.geometry.location);
-      const myDistrict = initUserDistrict(districts, result.geometry.location);
-      selectMap(map, districts, myDistrict);
-    });
-  };
 
   const topRow = document.createElement("div");
   topRow.id = "top-row";
@@ -115,5 +118,5 @@ export function initSearch(
   */
 
   // add select to map
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(controls);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(form);
 }
