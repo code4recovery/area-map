@@ -1,10 +1,11 @@
-import { color, size } from "../constants";
+import { color, size } from "./constants";
 
-import chevronRight from "../icons/chevron-right.svg?url";
-import magnifyingGlass from "../icons/magnifying-glass.svg?url";
-import mapPin from "../icons/map-pin.svg?url";
-import minus from "../icons/minus.svg?url";
-import plus from "../icons/plus.svg?url";
+import chevronDown from "../icons/chevron-down.svg";
+import chevronRight from "../icons/chevron-right.svg";
+import magnifyingGlass from "../icons/magnifying-glass.svg";
+import mapPin from "../icons/map-pin.svg";
+import minus from "../icons/minus.svg";
+import plus from "../icons/plus.svg";
 
 const backgroundStyle = {
   backgroundColor: color.surface,
@@ -25,12 +26,13 @@ const inputStyle = {
   width: "100%",
 };
 
-const iconInputStyle = {
+export const iconInputStyle = {
   ...inputStyle,
   backgroundPosition: "12px center",
   borderBottom: `1px solid ${color.hover}`,
   paddingLeft: "40px",
   paddingRight: "16px",
+  width: "100%",
 };
 
 export const appParentStyle = {
@@ -41,12 +43,18 @@ export const appParentStyle = {
 
 export const areaClosedStyle = {
   ...iconInputStyle,
-  backgroundImage: `url(${chevronRight})`,
+  backgroundImage: `url("${chevronRight}")`,
+};
+
+export const areaOpenStyle = {
+  ...iconInputStyle,
+  backgroundImage: `url("${chevronDown}")`,
+  backgroundColor: color.hover,
 };
 
 export const findMeButtonStyle = {
   ...iconInputStyle,
-  backgroundImage: `url(${mapPin})`,
+  backgroundImage: `url("${mapPin}")`,
 };
 
 export const mapElementStyle = {
@@ -58,6 +66,8 @@ export const panelElementStyle = {
   display: "flex",
   flexDirection: "column",
   overflowY: "auto",
+  position: "relative",
+  width: `${size.panelWidth}px`,
 };
 
 export const polygonDefaultStyle = {
@@ -76,7 +86,7 @@ export const polygonSelectedStyle = {
 
 export const searchStyle = {
   ...iconInputStyle,
-  backgroundImage: `url(${magnifyingGlass})`,
+  backgroundImage: `url("${magnifyingGlass}")`,
 };
 
 const zoomButtonStyle = {
@@ -97,10 +107,10 @@ export const zoomControlStyle = {
 
 export const zoomInStyle = {
   ...zoomButtonStyle,
-  backgroundImage: `url(${plus})`,
+  backgroundImage: `url("${plus}")`,
 };
 
 export const zoomOutStyle = {
   ...zoomButtonStyle,
-  backgroundImage: `url(${minus})`,
+  backgroundImage: `url("${minus}")`,
 };

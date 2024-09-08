@@ -11,22 +11,17 @@ export function selectDistricts({
   districts: District[];
   map: google.maps.Map;
 }) {
-  const menu = document.getElementById("menu") as HTMLSelectElement | null;
-
-  if (!selected.length) {
-    map.setCenter({ lat: 48, lng: -100 });
-    map.setZoom(4);
-    if (menu) {
-      menu.value = "";
-    }
-
-    return;
-  }
-
   // reset all districts
   districts.forEach((district) => {
     district.polygon?.setOptions(polygonDefaultStyle);
   });
+
+  // reset map if no districts selected
+  if (!selected.length) {
+    map.setCenter({ lat: 48, lng: -100 });
+    map.setZoom(4);
+    return;
+  }
 
   // set selected districts
   const bounds = new google.maps.LatLngBounds();

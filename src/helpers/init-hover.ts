@@ -1,10 +1,12 @@
-import { color } from "../constants.ts";
+import { color } from "./constants.ts";
 
 export function initHover(element: HTMLElement) {
   element.addEventListener("mouseover", () => {
     element.style.backgroundColor = color.hover;
   });
   element.addEventListener("mouseout", () => {
-    element.style.backgroundColor = "";
+    if (!element.hasAttribute("aria-expanded")) {
+      element.style.backgroundColor = "";
+    }
   });
 }

@@ -2,9 +2,16 @@ import { selectDistricts } from "./select-districts.ts";
 import { initUserDistrict } from "./init-user-district.ts";
 
 import { Area, District } from "./types.ts";
-import { searchStyle, areaClosedStyle, findMeButtonStyle } from "./styles.ts";
+import {
+  searchStyle,
+  areaClosedStyle,
+  findMeButtonStyle,
+  areaOpenStyle,
+  iconInputStyle,
+} from "./styles.ts";
 import { initHover } from "./init-hover.ts";
-import { strings } from "../constants.ts";
+import { strings } from "./constants.ts";
+import { formatAreaName, formatDistrictName } from "./format.ts";
 
 export function initPanel({
   areas,
@@ -54,6 +61,7 @@ export function initPanel({
   const findMeButton = document.createElement("button");
   findMeButton.innerText = strings.findMe;
   Object.assign(findMeButton.style, findMeButtonStyle);
+  initHover(findMeButton);
   findMeButton.onclick = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude: lat, longitude: lng } }) => {
@@ -74,15 +82,57 @@ export function initPanel({
   };
   panelElement.appendChild(findMeButton);
 
-  // create option groups for areas
+  // create accordion of areas
   areas
     .sort((a, b) => a.area - b.area)
-    .forEach(({ districts, name, area }) => {
-      const buttonElement = document.createElement("button");
-      buttonElement.innerText = `${area.toString().padStart(2, "0")}: ${name}`;
-      Object.assign(buttonElement.style, areaClosedStyle);
-      initHover(buttonElement);
-      panelElement.appendChild(buttonElement);
-      console.log(districts);
+    .forEach((area) => {
+      const areaButton = document.createElement("button");
+      areaButton.innerText = formatAreaName(area);
+      Object.assign(areaButton.style, areaClosedStyle);
+      initHover(areaButton);
+
+      const districtsContainer = document.createElement("div");
+      districtsContainer.style.display = "none";
+      area.districts
+        // .sort((a, b) => a.district.localeCompare(b.district))
+        .forEach((district) => {
+          const districtButton = document.createElement("button");
+          districtButton.innerText = formatDistrictName(district);
+          Object.assign(districtButton.style, iconInputStyle);
+          initHover(districtButton);
+          districtButton.onclick = () => {
+            selectDistricts({
+              map,
+              districts,
+              selected: [district],
+            });
+            areaButton.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
+          };
+          districtsContainer.appendChild(districtButton);
+        });
+
+      areaButton.addEventListener("click", () => {
+        // remove marker
+        marker.setPosition();
+
+        // expand accordion
+        if (districtsContainer.style.display === "none") {
+          Object.assign(areaButton.style, areaOpenStyle);
+          districtsContainer.style.display = "block";
+          areaButton.setAttribute("aria-expanded", "true");
+          panelElement.scrollTop = areaButton.offsetTop;
+          return;
+        }
+
+        // collapse accordion
+        Object.assign(areaButton.style, areaClosedStyle);
+        districtsContainer.style.display = "none";
+        areaButton.style.backgroundColor = "";
+        areaButton.removeAttribute("aria-expanded");
+        selectDistricts({ map, districts, selected: [] });
+      });
+
+      panelElement.appendChild(areaButton);
+      panelElement.appendChild(districtsContainer);
     });
 }
