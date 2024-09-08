@@ -4,7 +4,7 @@ import { initClick } from "./helpers/init-click";
 import { initDistricts } from "./helpers/init-districts";
 import { initPanel } from "./helpers/init-panel";
 import { initZoomButtons } from "./helpers/init-zoom-buttons";
-import { selectMap } from "./helpers/select-map";
+import { selectDistricts } from "./helpers/select-districts";
 import {
   appParentStyle,
   mapElementStyle,
@@ -49,7 +49,7 @@ import {
 
     initClick({ districts, map });
 
-    selectMap({ districts, map });
+    selectDistricts({ districts, map, selected: [] });
 
     initPanel({ areas, districts, map, marker, panelElement });
 

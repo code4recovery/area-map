@@ -1,4 +1,4 @@
-import { selectMap } from "./select-map.ts";
+import { selectDistricts } from "./select-districts.ts";
 
 import { District } from "./types";
 
@@ -13,14 +13,14 @@ export function initClick({
     district.polygon?.addListener(
       "click",
       ({ latLng }: { latLng: google.maps.LatLng }) => {
-        const clickedDistricts = districts
+        const selected = districts
           .filter(
             ({ polygon }) =>
               polygon &&
               google.maps.geometry.poly.containsLocation(latLng, polygon)
           )
           .sort((a, b) => a.area - b.area);
-        selectMap({ map, districts, district: clickedDistricts[0] });
+        selectDistricts({ map, districts, selected: [selected[0]] });
       }
     );
   });

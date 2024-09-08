@@ -2,18 +2,18 @@ import { polygonDefaultStyle, polygonSelectedStyle } from "./styles.ts";
 
 import { District } from "./types.ts";
 
-export function selectMap({
-  district,
+export function selectDistricts({
+  selected,
   districts,
   map,
 }: {
-  district?: District | null;
+  selected: District[];
   districts: District[];
   map: google.maps.Map;
 }) {
   const menu = document.getElementById("menu") as HTMLSelectElement | null;
 
-  if (!district) {
+  if (!selected.length) {
     map.setCenter({ lat: 48, lng: -100 });
     map.setZoom(4);
     if (menu) {
@@ -22,14 +22,18 @@ export function selectMap({
 
     return;
   }
+
+  // reset all districts
   districts.forEach((district) => {
     district.polygon?.setOptions(polygonDefaultStyle);
   });
-  district.polygon?.setOptions(polygonSelectedStyle);
 
-  if (menu && district.index) {
-    menu.value = district.index;
-  }
+  // set selected districts
+  const bounds = new google.maps.LatLngBounds();
+  selected.forEach((district) => {
+    district.polygon?.setOptions(polygonSelectedStyle);
+    bounds.union(district.bounds);
+  });
 
-  map.fitBounds(district.bounds);
+  map.fitBounds(bounds);
 }

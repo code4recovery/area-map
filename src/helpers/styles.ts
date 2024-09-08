@@ -1,20 +1,10 @@
-import chevronRight from "../icons/chevron-right.svg";
-import magnifyingGlass from "../icons/magnifying-glass.svg";
-import mapPin from "../icons/map-pin.svg";
-import minus from "../icons/minus.svg";
-import plus from "../icons/plus.svg";
+import { color, size } from "../constants";
 
-const color = {
-  surface: "#fff",
-  text: "#222",
-  border: "#ccc",
-};
-
-const size = {
-  icon: 20,
-  input: 36,
-  margin: 10,
-};
+import chevronRight from "../icons/chevron-right.svg?url";
+import magnifyingGlass from "../icons/magnifying-glass.svg?url";
+import mapPin from "../icons/map-pin.svg?url";
+import minus from "../icons/minus.svg?url";
+import plus from "../icons/plus.svg?url";
 
 const backgroundStyle = {
   backgroundColor: color.surface,
@@ -26,9 +16,8 @@ const backgroundStyle = {
 const inputStyle = {
   ...backgroundStyle,
   border: "0",
-  borderRadius: "4px",
   color: color.text,
-  fontFamily: "Roboto, Arial, sans-serif",
+  fontFamily: "ui-sans-serif, system-ui, sans-serif",
   fontSize: "16px",
   fontWeight: "400",
   padding: "8px",
@@ -38,14 +27,10 @@ const inputStyle = {
 
 const iconInputStyle = {
   ...inputStyle,
-  paddingLeft: "44px",
   backgroundPosition: "12px center",
-};
-
-const zoomButtonStyle = {
-  ...backgroundStyle,
-  height: `${size.icon}px`,
-  width: `${size.icon}px`,
+  borderBottom: `1px solid ${color.hover}`,
+  paddingLeft: "40px",
+  paddingRight: "16px",
 };
 
 export const appParentStyle = {
@@ -69,10 +54,10 @@ export const mapElementStyle = {
 };
 
 export const panelElementStyle = {
+  backgroundColor: color.surface,
   display: "flex",
   flexDirection: "column",
-  backgroundColor: "white",
-  width: "300px",
+  overflowY: "auto",
 };
 
 export const polygonDefaultStyle = {
@@ -94,13 +79,20 @@ export const searchStyle = {
   backgroundImage: `url(${magnifyingGlass})`,
 };
 
+const zoomButtonStyle = {
+  ...backgroundStyle,
+  height: `${size.input}px`,
+  width: `${size.input}px`,
+};
+
 export const zoomControlStyle = {
   ...inputStyle,
-  display: "flex",
-  flexDirection: "column",
+  borderRadius: "4px",
+  display: "grid",
   margin: `${size.margin}px`,
+  overflow: "hidden",
+  padding: 0,
   width: `${size.input}px`,
-  gap: "8px",
 };
 
 export const zoomInStyle = {
