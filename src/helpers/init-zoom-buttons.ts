@@ -1,6 +1,6 @@
 import { zoomControlStyle, zoomInStyle, zoomOutStyle } from "./styles";
 
-export function initZoomControl(map: google.maps.Map) {
+export function initZoomButtons(map: google.maps.Map) {
   const zoomControlIn = document.createElement("button");
   zoomControlIn.title = "Zoom In";
   Object.assign(zoomControlIn.style, zoomInStyle);

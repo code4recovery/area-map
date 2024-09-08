@@ -1,11 +1,15 @@
 import { Loader } from "@googlemaps/js-api-loader";
 
 import { initClick } from "./helpers/init-click";
-import { initSearch } from "./helpers/init-search";
 import { initDistricts } from "./helpers/init-districts";
+import { initPanel } from "./helpers/init-panel";
+import { initZoomButtons } from "./helpers/init-zoom-buttons";
 import { selectMap } from "./helpers/select-map";
-import { initFullscreenControl } from "./helpers/init-fullscreen-control";
-import { initZoomControl } from "./helpers/init-zoom-control";
+import {
+  appParentStyle,
+  mapElementStyle,
+  panelElementStyle,
+} from "./helpers/styles";
 
 (() => {
   const loader = new Loader({
@@ -14,7 +18,19 @@ import { initZoomControl } from "./helpers/init-zoom-control";
   });
 
   loader.importLibrary("maps").then(async ({ Map }) => {
-    const map = new Map(document.getElementById("map") as HTMLElement, {
+    const appParent = document.createElement("div");
+    Object.assign(appParent.style, appParentStyle);
+
+    const mapElement = document.createElement("div");
+    Object.assign(mapElement.style, mapElementStyle);
+
+    const panelElement = document.createElement("div");
+    Object.assign(panelElement.style, panelElementStyle);
+    appParent.appendChild(panelElement);
+    appParent.appendChild(mapElement);
+    document.getElementById("map")?.appendChild(appParent);
+
+    const map = new Map(mapElement, {
       center: { lat: 45, lng: -100 },
       disableDefaultUI: true,
       zoom: 4,
@@ -29,16 +45,14 @@ import { initZoomControl } from "./helpers/init-zoom-control";
       map,
     });
 
-    const districts = initDistricts(map, areas);
+    const districts = initDistricts({ areas, map });
 
-    initClick(map, districts);
+    initClick({ districts, map });
 
-    selectMap(map, districts);
+    selectMap({ districts, map });
 
-    initSearch(map, areas, districts, marker);
+    initPanel({ areas, districts, map, marker, panelElement });
 
-    initFullscreenControl(map);
-
-    initZoomControl(map);
+    initZoomButtons(map);
   });
 })();

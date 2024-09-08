@@ -2,7 +2,13 @@ import { selectMap } from "./select-map.ts";
 
 import { District } from "./types";
 
-export function initClick(map: google.maps.Map, districts: District[]) {
+export function initClick({
+  districts,
+  map,
+}: {
+  districts: District[];
+  map: google.maps.Map;
+}) {
   districts.forEach((district) => {
     district.polygon?.addListener(
       "click",
@@ -14,7 +20,7 @@ export function initClick(map: google.maps.Map, districts: District[]) {
               google.maps.geometry.poly.containsLocation(latLng, polygon)
           )
           .sort((a, b) => a.area - b.area);
-        selectMap(map, districts, clickedDistricts[0]);
+        selectMap({ map, districts, district: clickedDistricts[0] });
       }
     );
   });

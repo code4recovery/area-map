@@ -1,11 +1,17 @@
-import { defaultPolygonStyle } from "./styles.ts";
+import { polygonDefaultStyle } from "./styles.ts";
 
 import { Area } from "./types";
 
-export function initDistricts(map: google.maps.Map, areas: Area[]) {
+export function initDistricts({
+  areas,
+  map,
+}: {
+  areas: Area[];
+  map: google.maps.Map;
+}) {
   return areas
-    .map((area) => {
-      return area.districts.map((district) => {
+    .map((area) =>
+      area.districts.map((district) => {
         district.index = `${area.area}-${district.district}`;
 
         district.paths = district.boundary.map(([lng, lat]) => ({
@@ -14,7 +20,7 @@ export function initDistricts(map: google.maps.Map, areas: Area[]) {
         }));
 
         district.polygon = new google.maps.Polygon({
-          ...defaultPolygonStyle,
+          ...polygonDefaultStyle,
           paths: district.paths,
           fillColor: district.color,
           strokeColor: district.color,
@@ -32,7 +38,7 @@ export function initDistricts(map: google.maps.Map, areas: Area[]) {
         district.polygon.setMap(map);
 
         return district;
-      });
-    })
+      })
+    )
     .flat();
 }

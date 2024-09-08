@@ -1,12 +1,16 @@
-import { defaultPolygonStyle, selectedPolygonStyle } from "./styles.ts";
+import { polygonDefaultStyle, polygonSelectedStyle } from "./styles.ts";
 
-import { District } from "./types";
+import { District } from "./types.ts";
 
-export function selectMap(
-  map: google.maps.Map,
-  districts: District[],
-  district?: District | null
-) {
+export function selectMap({
+  district,
+  districts,
+  map,
+}: {
+  district?: District | null;
+  districts: District[];
+  map: google.maps.Map;
+}) {
   const menu = document.getElementById("menu") as HTMLSelectElement | null;
 
   if (!district) {
@@ -19,9 +23,9 @@ export function selectMap(
     return;
   }
   districts.forEach((district) => {
-    district.polygon?.setOptions(defaultPolygonStyle);
+    district.polygon?.setOptions(polygonDefaultStyle);
   });
-  district.polygon?.setOptions(selectedPolygonStyle);
+  district.polygon?.setOptions(polygonSelectedStyle);
 
   if (menu && district.index) {
     menu.value = district.index;
