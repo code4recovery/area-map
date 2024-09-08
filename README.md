@@ -8,8 +8,9 @@ Todo:
 - [x] custom fullscreen and zoom controls
 - [x] add c4r logo
 - [x] i18n
-- [ ] ability to select an area
-- [ ] listen to `data-area` on startup
+- [x] ability to select an area
+- [x] listen to `data-area` on startup
+- [ ] select district in the panel when you select it on the map
 - [ ] import descriptions
 - [ ] district number labels
 - [ ] mobile

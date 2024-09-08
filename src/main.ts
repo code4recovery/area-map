@@ -10,6 +10,7 @@ import {
   mapElementStyle,
   panelElementStyle,
 } from "./helpers/styles";
+import { Area } from "./helpers/types";
 
 (() => {
   const loader = new Loader({
@@ -18,6 +19,12 @@ import {
   });
 
   loader.importLibrary("maps").then(async ({ Map }) => {
+    const embedElement = document.getElementById("map");
+
+    if (!embedElement) {
+      return;
+    }
+
     const appParent = document.createElement("div");
     Object.assign(appParent.style, appParentStyle);
 
@@ -28,18 +35,17 @@ import {
     Object.assign(panelElement.style, panelElementStyle);
     appParent.appendChild(panelElement);
     appParent.appendChild(mapElement);
-    document.getElementById("map")?.appendChild(appParent);
+    embedElement.appendChild(appParent);
 
     const map = new Map(mapElement, {
-      center: { lat: 45, lng: -100 },
       disableDefaultUI: true,
-      zoom: 4,
+      renderingType: google.maps.RenderingType.VECTOR,
     });
 
     const mapData = await fetch(
       `https://generalservice.app/storage/map.json?${new Date().getTime()}`
     );
-    const areas = await mapData.json();
+    const areas = (await mapData.json()) as Area[];
 
     const marker = new google.maps.Marker({
       map,
@@ -49,9 +55,20 @@ import {
 
     initClick({ districts, map });
 
-    selectDistricts({ districts, map, selected: [] });
+    const selectedArea = embedElement.hasAttribute("data-area")
+      ? parseInt(embedElement.getAttribute("data-area") as string)
+      : null;
 
-    initPanel({ areas, districts, map, marker, panelElement });
+    const selectedDistricts =
+      areas.find(({ area }) => area === selectedArea)?.districts ?? [];
+
+    if (selectedDistricts.length) {
+      selectDistricts({ districts, map, selected: selectedDistricts });
+    } else {
+      map.setOptions({ center: { lat: 45, lng: -100 }, zoom: 4 });
+    }
+
+    initPanel({ areas, districts, map, marker, panelElement, selectedArea });
 
     initZoomButtons(map);
   });

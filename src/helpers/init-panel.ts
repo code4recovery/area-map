@@ -19,12 +19,14 @@ export function initPanel({
   map,
   marker,
   panelElement,
+  selectedArea,
 }: {
   areas: Area[];
   districts: District[];
   map: google.maps.Map;
   marker: google.maps.Marker;
   panelElement: HTMLElement;
+  selectedArea: number | null;
 }) {
   const form = document.createElement("form");
 
@@ -82,6 +84,8 @@ export function initPanel({
   };
   panelElement.appendChild(findMeButton);
 
+  let selectedAreaButton: HTMLButtonElement | null = null;
+
   // create accordion of areas
   areas
     .sort((a, b) => a.area - b.area)
@@ -90,6 +94,10 @@ export function initPanel({
       areaButton.innerText = formatAreaName(area);
       Object.assign(areaButton.style, areaClosedStyle);
       initHover(areaButton);
+
+      if (selectedArea === area.area) {
+        selectedAreaButton = areaButton;
+      }
 
       const districtsContainer = document.createElement("div");
       districtsContainer.style.display = "none";
@@ -121,6 +129,7 @@ export function initPanel({
           districtsContainer.style.display = "block";
           areaButton.setAttribute("aria-expanded", "true");
           panelElement.scrollTop = areaButton.offsetTop;
+          selectDistricts({ map, districts, selected: area.districts });
           return;
         }
 
@@ -135,4 +144,7 @@ export function initPanel({
       panelElement.appendChild(areaButton);
       panelElement.appendChild(districtsContainer);
     });
+
+  // @ts-ignore
+  selectedAreaButton?.click();
 }
