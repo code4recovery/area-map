@@ -101,13 +101,12 @@ export function initPanel({
       const districtsContainer = document.createElement("div");
       districtsContainer.style.display = "none";
       area.districts.forEach((district) => {
-        district.button.onclick = () => {
+        district.button.onclick = () =>
           selectDistricts({
             map,
             districts,
             selected: [district],
           });
-        };
         districtsContainer.appendChild(district.button);
       });
 

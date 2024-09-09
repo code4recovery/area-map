@@ -11,9 +11,8 @@ Todo:
 - [x] ability to select an area
 - [x] listen to `data-area` on startup
 - [x] select district in the panel when you select it on the map
-- [ ] import descriptions
+- [x] import descriptions
+- [ ] show description / website / area in selected district accordion
 - [ ] district number labels
 - [ ] mobile
 - [ ] fix CORS error on netlify or put static assets somewhere else
-- [ ] move PHP importer here
-- [ ] save JSON in CDN?

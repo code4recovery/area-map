@@ -54,7 +54,7 @@ export const areaClosedStyle = {
 export const areaOpenStyle = {
   ...iconInputStyle,
   backgroundImage: `url("${chevronDown}")`,
-  backgroundColor: color.hover,
+  backgroundColor: color.areaSelected,
 };
 
 export const findMeButtonStyle = {

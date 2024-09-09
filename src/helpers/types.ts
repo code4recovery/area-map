@@ -19,5 +19,5 @@ export type District = {
   index?: string;
   bounds: google.maps.LatLngBounds;
   paths: google.maps.LatLngLiteral[];
-  area: number;
+  surfaceArea: number;
 };

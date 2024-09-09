@@ -1,4 +1,5 @@
 export const color = {
+  areaSelected: "#ddd",
   hover: "#f0f0f0",
   surface: "#fff",
   text: "#222",

@@ -34,7 +34,7 @@ export function initDistricts({
         Object.assign(district.button.style, iconInputStyle);
         initHover(district.button);
 
-        district.area = google.maps.geometry.spherical.computeArea(
+        district.surfaceArea = google.maps.geometry.spherical.computeArea(
           district.paths
         );
 

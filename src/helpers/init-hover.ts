@@ -2,7 +2,12 @@ import { color } from "./constants.ts";
 
 export function initHover(element: HTMLElement) {
   element.onmouseover = () => {
-    element.style.backgroundColor = color.hover;
+    if (
+      !element.hasAttribute("aria-expanded") &&
+      !element.hasAttribute("aria-pressed")
+    ) {
+      element.style.backgroundColor = color.hover;
+    }
   };
   element.onmouseout = () => {
     if (
