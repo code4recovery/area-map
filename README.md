@@ -10,7 +10,7 @@ Todo:
 - [x] i18n
 - [x] ability to select an area
 - [x] listen to `data-area` on startup
-- [ ] select district in the panel when you select it on the map
+- [x] select district in the panel when you select it on the map
 - [ ] import descriptions
 - [ ] district number labels
 - [ ] mobile

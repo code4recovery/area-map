@@ -7,11 +7,10 @@ import {
   areaClosedStyle,
   findMeButtonStyle,
   areaOpenStyle,
-  iconInputStyle,
 } from "./styles.ts";
 import { initHover } from "./init-hover.ts";
 import { strings } from "./constants.ts";
-import { formatAreaName, formatDistrictName } from "./format.ts";
+import { formatAreaName } from "./format.ts";
 
 export function initPanel({
   areas,
@@ -36,7 +35,7 @@ export function initPanel({
   Object.assign(input.style, searchStyle);
   form.appendChild(input);
 
-  form.addEventListener("submit", (event) => {
+  form.onsubmit = (event) => {
     event.preventDefault();
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: input.value }, (results, status) => {
@@ -56,7 +55,7 @@ export function initPanel({
       });
       input.blur();
     });
-  });
+  };
 
   panelElement.appendChild(form);
 
@@ -101,25 +100,18 @@ export function initPanel({
 
       const districtsContainer = document.createElement("div");
       districtsContainer.style.display = "none";
-      area.districts
-        // .sort((a, b) => a.district.localeCompare(b.district))
-        .forEach((district) => {
-          const districtButton = document.createElement("button");
-          districtButton.innerText = formatDistrictName(district);
-          Object.assign(districtButton.style, iconInputStyle);
-          initHover(districtButton);
-          districtButton.onclick = () => {
-            selectDistricts({
-              map,
-              districts,
-              selected: [district],
-            });
-            areaButton.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
-          };
-          districtsContainer.appendChild(districtButton);
-        });
+      area.districts.forEach((district) => {
+        district.button.onclick = () => {
+          selectDistricts({
+            map,
+            districts,
+            selected: [district],
+          });
+        };
+        districtsContainer.appendChild(district.button);
+      });
 
-      areaButton.addEventListener("click", () => {
+      areaButton.onclick = () => {
         // remove marker
         marker.setPosition();
 
@@ -128,7 +120,10 @@ export function initPanel({
           Object.assign(areaButton.style, areaOpenStyle);
           districtsContainer.style.display = "block";
           areaButton.setAttribute("aria-expanded", "true");
-          panelElement.scrollTop = areaButton.offsetTop;
+          panelElement.scrollTo({
+            top: areaButton.offsetTop,
+            behavior: "smooth",
+          });
           selectDistricts({ map, districts, selected: area.districts });
           return;
         }
@@ -139,7 +134,7 @@ export function initPanel({
         areaButton.style.backgroundColor = "";
         areaButton.removeAttribute("aria-expanded");
         selectDistricts({ map, districts, selected: [] });
-      });
+      };
 
       panelElement.appendChild(areaButton);
       panelElement.appendChild(districtsContainer);

@@ -35,6 +35,11 @@ export const iconInputStyle = {
   width: "100%",
 };
 
+export const selectedIconInputStyle = {
+  ...iconInputStyle,
+  backgroundColor: color.hover,
+};
+
 export const appParentStyle = {
   alignItems: "stretch",
   display: "flex",

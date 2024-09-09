@@ -4,10 +4,8 @@ export function initUserDistrict(
   districts: District[],
   userPosition: google.maps.LatLng
 ) {
-  const containingDistricts = districts.filter(
-    ({ polygon }) =>
-      polygon &&
-      google.maps.geometry.poly.containsLocation(userPosition, polygon)
+  const containingDistricts = districts.filter(({ polygon }) =>
+    google.maps.geometry.poly.containsLocation(userPosition, polygon)
   );
   if (!containingDistricts.length) {
     return null;

@@ -10,7 +10,7 @@ export function initClick({
   map: google.maps.Map;
 }) {
   districts.forEach((district) => {
-    district.polygon?.addListener(
+    district.polygon.addListener(
       "click",
       ({ latLng }: { latLng: google.maps.LatLng }) => {
         const selected = districts

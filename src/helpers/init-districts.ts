@@ -1,4 +1,6 @@
-import { polygonDefaultStyle } from "./styles.ts";
+import { formatDistrictName } from "./format.ts";
+import { initHover } from "./init-hover.ts";
+import { iconInputStyle, polygonDefaultStyle } from "./styles.ts";
 
 import { Area } from "./types";
 
@@ -25,6 +27,12 @@ export function initDistricts({
           fillColor: district.color,
           strokeColor: district.color,
         });
+
+        // create button (set click event in init-panel.ts)
+        district.button = document.createElement("button");
+        district.button.innerText = formatDistrictName(district);
+        Object.assign(district.button.style, iconInputStyle);
+        initHover(district.button);
 
         district.area = google.maps.geometry.spherical.computeArea(
           district.paths

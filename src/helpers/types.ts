@@ -14,7 +14,8 @@ export type District = {
   color: string;
   boundary: [number, number][];
 
-  polygon?: google.maps.Polygon;
+  button: HTMLButtonElement;
+  polygon: google.maps.Polygon;
   index?: string;
   bounds: google.maps.LatLngBounds;
   paths: google.maps.LatLngLiteral[];
