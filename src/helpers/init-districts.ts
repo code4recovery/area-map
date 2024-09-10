@@ -1,6 +1,5 @@
 import { formatDistrictName } from "./format.ts";
-import { initHover } from "./init-hover.ts";
-import { iconInputStyle, polygonDefaultStyle } from "./styles.ts";
+import { polygonDefaultStyle } from "./styles.ts";
 
 import { Area } from "./types";
 
@@ -14,16 +13,14 @@ export function initDistricts({
   return areas
     .map((area) =>
       area.districts.map((district) => {
-        district.index = `${area.area}-${district.district}`;
-
-        district.paths = district.boundary.map(([lng, lat]) => ({
+        const paths = district.boundary.map(([lng, lat]) => ({
           lat,
           lng,
         }));
 
         district.polygon = new google.maps.Polygon({
           ...polygonDefaultStyle,
-          paths: district.paths,
+          paths,
           fillColor: district.color,
           strokeColor: district.color,
         });
@@ -31,14 +28,17 @@ export function initDistricts({
         // create button (set click event in init-panel.ts)
         district.button = document.createElement("button");
         district.button.innerText = formatDistrictName(district);
-        Object.assign(district.button.style, iconInputStyle);
-        initHover(district.button);
 
-        district.surfaceArea = google.maps.geometry.spherical.computeArea(
-          district.paths
-        );
+        district.description?.split("\n").forEach((line) => {
+          const p = document.createElement("p");
+          p.innerText = line;
+          district.button.appendChild(p);
+        });
 
-        district.bounds = district.paths.reduce((bounds, { lat, lng }) => {
+        district.surfaceArea =
+          google.maps.geometry.spherical.computeArea(paths);
+
+        district.bounds = paths.reduce((bounds, { lat, lng }) => {
           bounds.extend(new google.maps.LatLng(lat, lng));
           return bounds;
         }, new google.maps.LatLngBounds());

@@ -1,5 +1,7 @@
 import { Loader } from "@googlemaps/js-api-loader";
 
+import "./map.css";
+
 import { Area } from "./helpers/types";
 import { initApp } from "./helpers/init-app";
 import { initClick } from "./helpers/init-click";

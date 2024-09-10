@@ -1,0 +1,80 @@
+#map {
+  align-items: stretch;
+  background-color: #eee;
+  display: flex;
+
+  aside {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+    width: 320px;
+
+    input,
+    button {
+      background-position: 12px center;
+      background-repeat: no-repeat;
+      background-size: 20px;
+      border-bottom: 1px solid #eee;
+      border: 0;
+      color: #222;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      padding: 8px 16px 8px 40px;
+      text-align: left;
+      width: 100%;
+    }
+
+    button {
+      p {
+        display: none;
+        font-size: 14px;
+        margin: 0;
+        &:first-child {
+          margin-top: 8px;
+        }
+        &:last-child {
+          margin-bottom: 8px;
+        }
+      }
+      &:hover,
+      &[aria-expanded="true"],
+      &[aria-pressed="true"] {
+        background-color: #f0f0f0;
+      }
+      &[aria-pressed="true"] p {
+        display: block;
+      }
+    }
+  }
+
+  main {
+    flex: 1;
+    .gm-style iframe + div {
+      border: none !important;
+    }
+
+    div[role="group"] {
+      border-radius: 4px;
+      display: grid;
+      margin: 10px;
+      overflow: hidden;
+
+      button {
+        background-color: white;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 20px;
+        border: 0;
+        cursor: pointer;
+        height: 36px;
+        width: 36px;
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+}

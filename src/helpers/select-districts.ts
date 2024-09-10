@@ -1,9 +1,4 @@
-import {
-  iconInputStyle,
-  polygonDefaultStyle,
-  polygonSelectedStyle,
-  selectedIconInputStyle,
-} from "./styles.ts";
+import { polygonDefaultStyle, polygonSelectedStyle } from "./styles.ts";
 
 import { District } from "./types.ts";
 
@@ -21,7 +16,6 @@ export function selectDistricts({
     .filter((district) => !selected.includes(district))
     .forEach((district) => {
       district.polygon?.setOptions(polygonDefaultStyle);
-      Object.assign(district.button.style, iconInputStyle);
       district.button.removeAttribute("aria-pressed");
     });
 
@@ -36,9 +30,10 @@ export function selectDistricts({
   const bounds = new google.maps.LatLngBounds();
   selected.forEach((district) => {
     district.polygon?.setOptions(polygonSelectedStyle);
-    Object.assign(district.button.style, selectedIconInputStyle);
-    district.button.setAttribute("aria-pressed", "true");
     bounds.union(district.bounds);
+    if (selected.length === 1) {
+      district.button.setAttribute("aria-pressed", "true");
+    }
   });
 
   map.fitBounds(bounds);

@@ -1,23 +1,9 @@
-export const color = {
-  areaSelected: "#ddd",
-  hover: "#f0f0f0",
-  surface: "#fff",
-  text: "#222",
-};
-
 // supported
 const supportedLanguages = ["en", "es", "fr"];
 const browserLanguage = navigator.language.split("-")[0];
 export const language = supportedLanguages.includes(browserLanguage)
   ? browserLanguage
   : "en";
-
-export const size = {
-  icon: 20,
-  input: 36,
-  margin: 10,
-  panelWidth: 320,
-};
 
 const dictionary = {
   en: {

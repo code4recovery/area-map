@@ -1,11 +1,10 @@
-import { initHover } from "./init-hover";
-import { zoomControlStyle, zoomInStyle, zoomOutStyle } from "./styles";
+import minus from "../icons/minus.svg";
+import plus from "../icons/plus.svg";
 
 export function initZoomButtons(map: google.maps.Map) {
   const zoomControlIn = document.createElement("button");
   zoomControlIn.title = "Zoom In";
-  Object.assign(zoomControlIn.style, zoomInStyle);
-  initHover(zoomControlIn);
+  zoomControlIn.style.backgroundImage = `url("${plus}")`;
 
   zoomControlIn.onclick = function () {
     map.setZoom(map.getZoom()! + 1);
@@ -13,8 +12,7 @@ export function initZoomButtons(map: google.maps.Map) {
 
   const zoomControlOut = document.createElement("button");
   zoomControlOut.title = "Zoom Out";
-  Object.assign(zoomControlOut.style, zoomOutStyle);
-  initHover(zoomControlOut);
+  zoomControlOut.style.backgroundImage = `url("${minus}")`;
 
   zoomControlOut.onclick = function () {
     map.setZoom(map.getZoom()! - 1);
@@ -22,7 +20,6 @@ export function initZoomButtons(map: google.maps.Map) {
 
   const zoomControl = document.createElement("div");
   zoomControl.role = "group";
-  Object.assign(zoomControl.style, zoomControlStyle);
   zoomControl.appendChild(zoomControlIn);
   zoomControl.appendChild(zoomControlOut);
 

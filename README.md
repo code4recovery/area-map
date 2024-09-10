@@ -12,7 +12,8 @@ Todo:
 - [x] listen to `data-area` on startup
 - [x] select district in the panel when you select it on the map
 - [x] import descriptions
-- [ ] show description / website / area in selected district accordion
-- [ ] district number labels
+- [x] show description in selected district accordion
+- [x] fix CORS error on netlify or put static assets somewhere else
+- [ ] open parent when selecting district using find me / address search / map click
 - [ ] mobile
-- [ ] fix CORS error on netlify or put static assets somewhere else
+- [ ] district number labels

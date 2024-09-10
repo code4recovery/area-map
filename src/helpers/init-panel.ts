@@ -1,14 +1,12 @@
 import { selectDistricts } from "./select-districts.ts";
 import { initUserDistrict } from "./init-user-district.ts";
 
+import chevronDown from "../icons/chevron-down.svg";
+import chevronRight from "../icons/chevron-right.svg";
+import magnifyingGlass from "../icons/magnifying-glass.svg";
+import mapPin from "../icons/map-pin.svg";
+
 import { Area, District } from "./types.ts";
-import {
-  searchStyle,
-  areaClosedStyle,
-  findMeButtonStyle,
-  areaOpenStyle,
-} from "./styles.ts";
-import { initHover } from "./init-hover.ts";
 import { strings } from "./constants.ts";
 import { formatAreaName } from "./format.ts";
 
@@ -32,7 +30,7 @@ export function initPanel({
   const input = document.createElement("input");
   input.type = "search";
   input.placeholder = strings.search;
-  Object.assign(input.style, searchStyle);
+  input.style.backgroundImage = `url("${magnifyingGlass}")`;
   form.appendChild(input);
 
   form.onsubmit = (event) => {
@@ -61,8 +59,7 @@ export function initPanel({
 
   const findMeButton = document.createElement("button");
   findMeButton.innerText = strings.findMe;
-  Object.assign(findMeButton.style, findMeButtonStyle);
-  initHover(findMeButton);
+  findMeButton.style.backgroundImage = `url("${mapPin}")`;
   findMeButton.onclick = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude: lat, longitude: lng } }) => {
@@ -91,8 +88,7 @@ export function initPanel({
     .forEach((area) => {
       const areaButton = document.createElement("button");
       areaButton.innerText = formatAreaName(area);
-      Object.assign(areaButton.style, areaClosedStyle);
-      initHover(areaButton);
+      areaButton.style.backgroundImage = `url("${chevronRight}")`;
 
       if (selectedArea === area.area) {
         selectedAreaButton = areaButton;
@@ -116,7 +112,7 @@ export function initPanel({
 
         // expand accordion
         if (districtsContainer.style.display === "none") {
-          Object.assign(areaButton.style, areaOpenStyle);
+          areaButton.style.backgroundImage = `url("${chevronDown}")`;
           districtsContainer.style.display = "block";
           areaButton.setAttribute("aria-expanded", "true");
           panelElement.scrollTo({
@@ -128,7 +124,7 @@ export function initPanel({
         }
 
         // collapse accordion
-        Object.assign(areaButton.style, areaClosedStyle);
+        areaButton.style.backgroundImage = `url("${chevronRight}")`;
         districtsContainer.style.display = "none";
         areaButton.style.backgroundColor = "";
         areaButton.removeAttribute("aria-expanded");
