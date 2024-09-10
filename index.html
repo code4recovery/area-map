@@ -37,7 +37,10 @@
         </li>
         <li>No tracking</li>
         <li>English, French, and Spanish</li>
-        <li>Tiny javascript bundle (~5kb)</li>
+        <li>
+          Tiny js bundle
+          <span class="text-neutral-400">&lt; 6kb</span>
+        </li>
       </ul>
 
       <h2 class="font-bold text-xl mt-5">Add your district boundaries</h2>
@@ -66,29 +69,22 @@
       <h2 class="font-bold text-xl mt-5">Embed the map on your site</h2>
       <p>
         You can embed the map on your website by adding the following code to
-        your HTML. Replace the
-        <code>data-area</code> attribute with the number of your area.
+        your HTML. Feel free to modify the CSS.
       </p>
 
       <!-- prettier ignore -->
       <pre
         class="bg-neutral-200 dark:bg-black p-5 font-mono rounded text-sm overflow-x-auto"
-      >
-&lt;script src="https://area-map.netlify.app/app.js" type="module" async&gt;&lt;/script&gt;
-&lt;div id="map"&gt;&lt;/div&gt;</pre
-      >
+      ></pre>
 
       <p>
-        If you wish, you can add a parameter to select a particular area when
-        the page loads. See example for
-        <a
-          href="/example?area=1"
-          class="text-blue-600 dark:text-blue-400 underline"
-          >Area 01: Alabama</a
+        If you wish, you can add a <code>data-area</code> parameter to
+        pre-select an area when the page loads. See an example for
+        <a href="/?area=1" class="text-blue-600 dark:text-blue-400 underline"
+          >Area 01</a
         >.
       </p>
 
-      <h2 class="font-bold text-xl mt-5">Get Help</h2>
       <p>
         If you run into trouble, or want to request a feature, please
         <a
@@ -107,6 +103,24 @@
     >
       <img src="/code-for-recovery.svg" alt="Code for Recovery Logo" />
     </a>
+
+    <script>
+      const area = parseInt(new URLSearchParams(location.search).get("area"));
+
+      if (area) {
+        // update title and embed code
+        document.getElementById("map").setAttribute("data-area", area);
+        const titleText = `Area ${area.toString().padStart(2, "0")} Example`;
+        document.title = titleText;
+        document.querySelector("h1").textContent = titleText;
+      }
+
+      document.querySelector("pre").textContent = [
+        `<script src="https://area-map.netlify.app/app.js" type="module" async><\/script>`,
+        `<style type="text/css">#map { height: 600px; }</style>`,
+        `<div id="map"${area ? ` data-area="${area}"` : ""}></div>`,
+      ].join("\n");
+    </script>
 
     <script type="module" src="/src/main.ts"></script>
   </body>
