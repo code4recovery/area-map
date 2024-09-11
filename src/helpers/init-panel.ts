@@ -1,11 +1,6 @@
 import { selectDistricts } from "./select-districts.ts";
 import { initUserDistrict } from "./init-user-district.ts";
 
-import chevronDown from "../icons/chevron-down.svg";
-import chevronRight from "../icons/chevron-right.svg";
-import magnifyingGlass from "../icons/magnifying-glass.svg";
-import mapPin from "../icons/map-pin.svg";
-
 import { Area, District } from "./types.ts";
 import { strings } from "./constants.ts";
 import { formatAreaName } from "./format.ts";
@@ -30,7 +25,6 @@ export function initPanel({
   const input = document.createElement("input");
   input.type = "search";
   input.placeholder = strings.search;
-  input.style.backgroundImage = `url("${magnifyingGlass}")`;
   form.appendChild(input);
 
   form.onsubmit = (event) => {
@@ -59,7 +53,6 @@ export function initPanel({
 
   const findMeButton = document.createElement("button");
   findMeButton.innerText = strings.findMe;
-  findMeButton.style.backgroundImage = `url("${mapPin}")`;
   findMeButton.onclick = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude: lat, longitude: lng } }) => {
@@ -82,20 +75,21 @@ export function initPanel({
 
   let selectedAreaButton: HTMLButtonElement | null = null;
 
+  const areaList = document.createElement("ul");
+  areaList.role = "tree";
+  areaList.ariaLabel = "Areas";
+
   // create accordion of areas
   areas
     .sort((a, b) => a.area - b.area)
     .forEach((area) => {
-      const areaButton = document.createElement("button");
-      areaButton.innerText = formatAreaName(area);
-      areaButton.style.backgroundImage = `url("${chevronRight}")`;
+      const areaItem = document.createElement("li");
+      areaItem.role = "treeitem";
+      areaItem.ariaExpanded = String(selectedArea === area.area);
 
-      if (selectedArea === area.area) {
-        selectedAreaButton = areaButton;
-      }
+      const districtList = document.createElement("ul");
+      districtList.role = "group";
 
-      const districtsContainer = document.createElement("div");
-      districtsContainer.style.display = "none";
       area.districts.forEach((district) => {
         district.button.onclick = () =>
           selectDistricts({
@@ -103,20 +97,25 @@ export function initPanel({
             districts,
             selected: [district],
           });
-        districtsContainer.appendChild(district.button);
+        const districtItem = document.createElement("li");
+        districtItem.role = "treeitem";
+        districtItem.appendChild(district.button);
+        districtList.appendChild(districtItem);
       });
 
-      areaButton.onclick = () => {
+      area.button.innerText = formatAreaName(area);
+      areaItem.appendChild(area.button);
+      areaItem.appendChild(districtList);
+
+      area.button.onclick = () => {
         // remove marker
         marker.setPosition();
 
         // expand accordion
-        if (districtsContainer.style.display === "none") {
-          areaButton.style.backgroundImage = `url("${chevronDown}")`;
-          districtsContainer.style.display = "block";
-          areaButton.setAttribute("aria-expanded", "true");
+        if (areaItem.getAttribute("aria-expanded") === "false") {
+          areaItem.setAttribute("aria-expanded", "true");
           panelElement.scrollTo({
-            top: areaButton.offsetTop,
+            top: area.button.offsetTop,
             behavior: "smooth",
           });
           selectDistricts({ map, districts, selected: area.districts });
@@ -124,16 +123,14 @@ export function initPanel({
         }
 
         // collapse accordion
-        areaButton.style.backgroundImage = `url("${chevronRight}")`;
-        districtsContainer.style.display = "none";
-        areaButton.style.backgroundColor = "";
-        areaButton.removeAttribute("aria-expanded");
+        areaItem.setAttribute("aria-expanded", "false");
         selectDistricts({ map, districts, selected: [] });
       };
 
-      panelElement.appendChild(areaButton);
-      panelElement.appendChild(districtsContainer);
+      areaList.appendChild(areaItem);
     });
+
+  panelElement.appendChild(areaList);
 
   // @ts-ignore
   selectedAreaButton?.click();

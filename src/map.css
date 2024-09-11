@@ -27,6 +27,14 @@
       width: 100%;
     }
 
+    input {
+      background-image: url("./icons/magnifying-glass.svg");
+    }
+
+    > button {
+      background-image: url("./icons/map-pin.svg");
+    }
+
     button {
       p {
         display: none;
@@ -46,6 +54,30 @@
       }
       &[aria-pressed="true"] p {
         display: block;
+      }
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        margin: 0;
+        padding: 0;
+        &[aria-expanded="false"] {
+          > button {
+            background-image: url("./icons/chevron-right.svg");
+          }
+          > ul {
+            display: none;
+          }
+        }
+        &[aria-expanded="true"] {
+          > button {
+            background-color: #eee;
+            background-image: url("./icons/chevron-down.svg");
+          }
+        }
       }
     }
   }
@@ -71,6 +103,12 @@
         cursor: pointer;
         height: 36px;
         width: 36px;
+        &:first-child {
+          background-image: url("./icons/plus.svg");
+        }
+        &:last-child {
+          background-image: url("./icons/minus.svg");
+        }
         &:hover {
           background-color: #f0f0f0;
         }

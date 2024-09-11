@@ -3,6 +3,9 @@ export type Area = {
   name: string;
   website: string;
   districts: District[];
+
+  // added in init-data.ts
+  button: HTMLButtonElement;
 };
 
 export type District = {
@@ -15,9 +18,10 @@ export type District = {
   color: string;
   boundary: [number, number][];
 
-  // added in init-districts.ts
+  // added in init-data.ts
+  areaButton: HTMLButtonElement;
+  bounds: google.maps.LatLngBounds;
   button: HTMLButtonElement;
   polygon: google.maps.Polygon;
-  bounds: google.maps.LatLngBounds;
   surfaceArea: number;
 };

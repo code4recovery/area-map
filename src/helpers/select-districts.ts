@@ -33,6 +33,13 @@ export function selectDistricts({
     bounds.union(district.bounds);
     if (selected.length === 1) {
       district.button.setAttribute("aria-pressed", "true");
+      document
+        .getElementById("map")
+        ?.querySelector("aside")
+        ?.scrollTo({
+          top: district.button.offsetTop - 100,
+          behavior: "smooth",
+        });
     }
   });
 

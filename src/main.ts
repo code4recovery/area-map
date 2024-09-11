@@ -2,10 +2,9 @@ import { Loader } from "@googlemaps/js-api-loader";
 
 import "./map.css";
 
-import { Area } from "./helpers/types";
 import { initApp } from "./helpers/init-app";
 import { initClick } from "./helpers/init-click";
-import { initDistricts } from "./helpers/init-districts";
+import { initData } from "./helpers/init-data";
 import { initPanel } from "./helpers/init-panel";
 import { initZoomButtons } from "./helpers/init-zoom-buttons";
 import { selectDistricts } from "./helpers/select-districts";
@@ -23,16 +22,17 @@ import { selectDistricts } from "./helpers/select-districts";
     renderingType: google.maps.RenderingType.VECTOR,
   });
 
-  const mapData = await fetch(
-    `https://generalservice.app/storage/map.json?${new Date().getTime()}`
-  );
-  const areas = (await mapData.json()) as Area[];
-
   const marker = new google.maps.Marker({
     map,
   });
 
-  const districts = initDistricts({ areas, map });
+  const json = await fetch(
+    `https://generalservice.app/storage/map.json?${new Date().getTime()}`
+  );
+
+  const data = await json.json();
+
+  const { areas, districts } = initData({ data, map });
 
   initClick({ districts, map });
 
