@@ -1,11 +1,14 @@
 import { District } from "./types";
 
-export function initUserDistrict(
-  districts: District[],
-  userPosition: google.maps.LatLng
-) {
+export function getDistrictAtPoint({
+  districts,
+  point,
+}: {
+  districts: District[];
+  point: google.maps.LatLng;
+}) {
   const containingDistricts = districts.filter(({ polygon }) =>
-    google.maps.geometry.poly.containsLocation(userPosition, polygon)
+    google.maps.geometry.poly.containsLocation(point, polygon)
   );
   if (!containingDistricts.length) {
     return null;

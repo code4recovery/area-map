@@ -1,5 +1,5 @@
 import { selectDistricts } from "./select-districts.ts";
-import { initUserDistrict } from "./init-user-district.ts";
+import { getDistrictAtPoint } from "./get-district-at-point.ts";
 
 import { Area, District } from "./types.ts";
 import { strings } from "./constants.ts";
@@ -39,7 +39,10 @@ export function initPanel({
       input.value = result.formatted_address;
       map.panTo(result.geometry.location);
       marker.setPosition(result.geometry.location);
-      const myDistrict = initUserDistrict(districts, result.geometry.location);
+      const myDistrict = getDistrictAtPoint({
+        districts,
+        point: result.geometry.location,
+      });
       selectDistricts({
         map,
         districts,
@@ -55,11 +58,14 @@ export function initPanel({
   findMeButton.innerText = strings.findMe;
   findMeButton.onclick = () => {
     navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude: lat, longitude: lng } }) => {
-        marker.setPosition({ lat, lng });
-        map.panTo({ lat, lng });
-        // @ts-ignore
-        const myDistrict = initUserDistrict(districts, { lat, lng });
+      ({ coords: { latitude, longitude } }) => {
+        const point = new google.maps.LatLng(latitude, longitude);
+        marker.setPosition(point);
+        map.panTo(point);
+        const myDistrict = getDistrictAtPoint({
+          districts,
+          point,
+        });
         selectDistricts({
           map,
           districts,
@@ -83,9 +89,8 @@ export function initPanel({
   areas
     .sort((a, b) => a.area - b.area)
     .forEach((area) => {
-      const areaItem = document.createElement("li");
-      areaItem.role = "treeitem";
-      areaItem.ariaExpanded = String(selectedArea === area.area);
+      area.item.role = "treeitem";
+      area.item.ariaExpanded = String(selectedArea === area.area);
 
       const districtList = document.createElement("ul");
       districtList.role = "group";
@@ -104,16 +109,24 @@ export function initPanel({
       });
 
       area.button.innerText = formatAreaName(area);
-      areaItem.appendChild(area.button);
-      areaItem.appendChild(districtList);
+      area.item.appendChild(area.button);
+      area.item.appendChild(districtList);
 
       area.button.onclick = () => {
         // remove marker
         marker.setPosition();
 
+        // collapse other accordions
+        areas.forEach((otherArea) => {
+          if (otherArea === area) return;
+          otherArea.button.setAttribute("aria-pressed", "false");
+          otherArea.item.setAttribute("aria-expanded", "false");
+        });
+
         // expand accordion
-        if (areaItem.getAttribute("aria-expanded") === "false") {
-          areaItem.setAttribute("aria-expanded", "true");
+        if (area.item.getAttribute("aria-expanded") === "false") {
+          area.item.setAttribute("aria-expanded", "true");
+          area.button.setAttribute("aria-pressed", "true");
           panelElement.scrollTo({
             top: area.button.offsetTop,
             behavior: "smooth",
@@ -123,11 +136,12 @@ export function initPanel({
         }
 
         // collapse accordion
-        areaItem.setAttribute("aria-expanded", "false");
+        area.button.setAttribute("aria-pressed", "false");
+        area.item.setAttribute("aria-expanded", "false");
         selectDistricts({ map, districts, selected: [] });
       };
 
-      areaList.appendChild(areaItem);
+      areaList.appendChild(area.item);
     });
 
   panelElement.appendChild(areaList);

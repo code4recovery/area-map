@@ -14,6 +14,5 @@ Todo:
 - [x] import descriptions
 - [x] show description in selected district accordion
 - [x] fix CORS error on netlify or put static assets somewhere else
-- [ ] open parent when selecting district using find me / address search / map click
-- [ ] mobile
-- [ ] district number labels
+- [x] open parent when selecting district using find me / address search / map click
+- [x] mobile

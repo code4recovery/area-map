@@ -12,6 +12,7 @@ export function initData({
 }) {
   const areas = (data as Area[]).map((area) => {
     const button = document.createElement("button");
+    const item = document.createElement("li");
     const districts = area.districts.map((district) => {
       const paths = district.boundary.map(([lng, lat]) => ({
         lat,
@@ -45,11 +46,12 @@ export function initData({
       district.polygon.setMap(map);
 
       district.areaButton = button;
+      district.areaItem = item;
 
       return district;
     });
 
-    return { ...area, button, districts };
+    return { ...area, button, districts, item };
   });
 
   const districts = areas.flatMap((area) => area.districts);

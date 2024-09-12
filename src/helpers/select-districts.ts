@@ -33,6 +33,12 @@ export function selectDistricts({
     bounds.union(district.bounds);
     if (selected.length === 1) {
       district.button.setAttribute("aria-pressed", "true");
+
+      if (district.areaButton.getAttribute("aria-pressed") !== "true") {
+        district.areaItem.setAttribute("aria-expanded", "true");
+        district.areaButton.setAttribute("aria-pressed", "true");
+      }
+
       document
         .getElementById("map")
         ?.querySelector("aside")

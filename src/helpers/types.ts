@@ -6,6 +6,7 @@ export type Area = {
 
   // added in init-data.ts
   button: HTMLButtonElement;
+  item: HTMLLIElement;
 };
 
 export type District = {
@@ -20,6 +21,7 @@ export type District = {
 
   // added in init-data.ts
   areaButton: HTMLButtonElement;
+  areaItem: HTMLLIElement;
   bounds: google.maps.LatLngBounds;
   button: HTMLButtonElement;
   polygon: google.maps.Polygon;
