@@ -90,7 +90,11 @@ export function initPanel({
     .sort((a, b) => a.area - b.area)
     .forEach((area) => {
       area.item.role = "treeitem";
-      area.item.ariaExpanded = String(selectedArea === area.area);
+      area.item.ariaExpanded = "false";
+
+      if (selectedArea === area.area) {
+        selectedAreaButton = area.button;
+      }
 
       const districtList = document.createElement("ul");
       districtList.role = "group";

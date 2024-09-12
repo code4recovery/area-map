@@ -1,6 +1,6 @@
 export const polygonDefaultStyle = {
-  fillOpacity: 0.1,
-  strokeOpacity: 0.3,
+  fillOpacity: 0.05,
+  strokeOpacity: 0.2,
   strokeWeight: 1,
   zIndex: 1,
 };
