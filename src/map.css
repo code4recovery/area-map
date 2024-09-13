@@ -1,10 +1,17 @@
 #map {
+  --border-color: #eee;
+  --hover-color: #f6f6f6;
+  --selected-color: #eee;
+  --text-color: #222;
+  --ui-color: #fff;
+
   align-items: stretch;
-  background-color: #eee;
+  background-color: var(--border-color);
   display: flex;
 
   aside {
-    background-color: white;
+    background-color: var(--ui-color);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -16,9 +23,8 @@
       background-position: 12px center;
       background-repeat: no-repeat;
       background-size: 20px;
-      border-bottom: 1px solid #eee;
-      border: 0;
-      color: #222;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-color);
       font-family: ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
       font-weight: 400;
@@ -47,10 +53,12 @@
           margin-bottom: 8px;
         }
       }
-      &:hover,
+      &:hover {
+        background-color: var(--hover-color);
+      }
       &[aria-expanded="true"],
       &[aria-pressed="true"] {
-        background-color: #f0f0f0;
+        background-color: var(--selected-color);
       }
       &[aria-pressed="true"] p {
         display: block;
@@ -74,7 +82,6 @@
         }
         &[aria-expanded="true"] {
           > button {
-            background-color: #eee;
             background-image: url("./icons/chevron-down.svg");
           }
         }
@@ -95,7 +102,7 @@
       overflow: hidden;
 
       button {
-        background-color: white;
+        background-color: var(--ui-color);
         background-position: center;
         background-repeat: no-repeat;
         background-size: 20px;
@@ -105,12 +112,13 @@
         width: 36px;
         &:first-child {
           background-image: url("./icons/plus.svg");
+          border-bottom: 1px solid var(--border-color);
         }
         &:last-child {
           background-image: url("./icons/minus.svg");
         }
         &:hover {
-          background-color: #f0f0f0;
+          background-color: var(--hover-color);
         }
       }
     }
