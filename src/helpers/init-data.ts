@@ -14,7 +14,7 @@ export function initData({
     const button = document.createElement("button");
     const item = document.createElement("li");
     const districts = area.districts.map((district) => {
-      const paths = district.boundary.map(([lng, lat]) => ({
+      const paths = district.boundary.map(([lat, lng]) => ({
         lat,
         lng,
       }));
